@@ -36,6 +36,11 @@
   (testing "google shorter"
     (is (false? (scramble? "gogle" "google")))))
 
+(deftest assignment-defined-words
+  (is (true? (scramble? "rekqodlw" "world")))
+  (is (true? (scramble? "cedewaraaossoqqyt" "codewars")))
+  (is (false? (scramble? "katas" "steak"))))
+
 (deftest char-frequencies-test-all-chars-equal
   (testing "word of length 1"
     (is (= {\a 1} (char-frequencies "a"))))

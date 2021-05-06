@@ -30,3 +30,34 @@
   (testing "target is string of length 2"
     (is (false? (scramble? "xyz" "yy")))))
 
+(deftest scramble-composed-from-correct-chars-but-not-enough
+  (testing "single char used - scramble is shorter"
+    (is (false? (scramble? "rr" "rrr"))))
+  (testing "google shorter"
+    (is (false? (scramble? "gogle" "google")))))
+
+(deftest char-frequencies-test-all-chars-equal
+  (testing "word of length 1"
+    (is (= {\a 1} (char-frequencies "a"))))
+
+  (testing "word longer than 1"
+    (is (= {\z 2} (char-frequencies "zz")))
+    (is (= {\r 5} (char-frequencies "rrrrr")))))
+
+(deftest char-frequencies-test-multiple-chars
+  (testing "one of each char"
+    (is (= {\v 1 \l 1 \k 1} (char-frequencies "vlk"))))
+  (testing "more than one of some chars"
+    (is (= {\a 1 \l 2 \o 1} (char-frequencies "allo")))))
+
+(deftest contains-char-with-sufficient-amount-test
+  (testing "doesnt contain all"
+    (is (false? (contains-char-with-sufficient-amount? {\a 2 \z 2} [\x 1 \z 1]))))
+  (testing "not containing"
+    (is (false? (contains-char-with-sufficient-amount? {\a 2} [\z 1]))))
+  (testing "exact"
+    (is (true? (contains-char-with-sufficient-amount? {\a 1} [\a 1]))))
+  (testing "sufficient"
+    (is (true? (contains-char-with-sufficient-amount? {\d 5} [\d 5]))))
+  (testing "insufficient"
+    (is (false? (contains-char-with-sufficient-amount? {\z 1} [\z 3])))))

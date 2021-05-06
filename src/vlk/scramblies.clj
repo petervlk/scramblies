@@ -1,13 +1,12 @@
-(ns vlk.scramblies
-  (:gen-class))
+(ns vlk.scramblies)
 
 (defn keyed-char-counts
   [word]
   (letfn [(keyed-char-count [[char chars]] [char (count chars)])]
     (->> word
-        (group-by identity)
-        (map keyed-char-count)
-        (into {}))))
+         (group-by identity)
+         (map keyed-char-count)
+         (into {}))))
 
 (defn keyed-chars-meet-requirements?
   [keyed-chars-under-test [required-char min-char-count]]
@@ -26,7 +25,3 @@
   (contains-all-chars-with-sufficient-amount?
     (keyed-char-counts scramble)
     (keyed-char-counts target)))
-
-(defn -main
-  [& args]
-  (scramble? (first args) (second args)))

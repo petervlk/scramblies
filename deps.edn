@@ -1,14 +1,12 @@
 {:paths ["src" "resources"]
  :deps  {org.clojure/clojure     {:mvn/version "1.10.2"}
          ring/ring-jetty-adapter {:mvn/version "1.9.1"}
+         metosin/reitit          {:mvn/version "0.5.13"}
          integrant/integrant     {:mvn/version "0.8.0"}
          integrant/repl          {:mvn/version "0.3.2"}}
 
  :aliases
-        {:run-m   {:main-opts ["-m" "vlk.scramblies"]}
-         :run-x   {:ns-default vlk.scramblies
-                   :exec-fn    greet
-                   :exec-args  {:name "Clojure"}}
+        {:run-m   {:main-opts ["-m" "vlk.system"]}
          :test    {:extra-paths ["test"]
                    :extra-deps  {org.clojure/test.check {:mvn/version "1.1.0"}}}
          :runner

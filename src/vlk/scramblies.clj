@@ -1,7 +1,7 @@
 (ns vlk.scramblies
   (:gen-class))
 
-(defn char-frequencies
+(defn keyed-char-counts
   [word]
   (letfn [(keyed-char-count [[char chars]] [char (count chars)])]
     (->> word
@@ -9,21 +9,23 @@
         (map keyed-char-count)
         (into {}))))
 
-(defn contains-char-with-sufficient-amount?
-  [char-freq-map [char char-count]]
+(defn keyed-chars-meet-requirements?
+  [keyed-chars-under-test [required-char min-char-count]]
   (and
-    (contains? char-freq-map char)
-    (not (> char-count (get char-freq-map char)))))
+    (contains? keyed-chars-under-test required-char)
+    (<= min-char-count (get keyed-chars-under-test required-char))))
 
-(defn char-freq-superset?
-  [char-freq-tested char-freq-base]
+(defn contains-all-chars-with-sufficient-amount?
+  [keyed-chars-under-test required-keyed-chars-with-minimum-vals]
   (every?
-    (partial contains-char-with-sufficient-amount? char-freq-tested)
-    char-freq-base))
+    (partial keyed-chars-meet-requirements? keyed-chars-under-test)
+    required-keyed-chars-with-minimum-vals))
 
 (defn scramble?
   [scramble target]
-  (char-freq-superset? (char-frequencies scramble) (char-frequencies target)))
+  (contains-all-chars-with-sufficient-amount?
+    (keyed-char-counts scramble)
+    (keyed-char-counts target)))
 
 (defn -main
   [& args]

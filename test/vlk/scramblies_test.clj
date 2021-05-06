@@ -41,28 +41,28 @@
   (is (true? (scramble? "cedewaraaossoqqyt" "codewars")))
   (is (false? (scramble? "katas" "steak"))))
 
-(deftest char-frequencies-test-all-chars-equal
+(deftest keyed-char-counts-test-all-chars-equal
   (testing "word of length 1"
-    (is (= {\a 1} (char-frequencies "a"))))
+    (is (= {\a 1} (keyed-char-counts "a"))))
 
   (testing "word longer than 1"
-    (is (= {\z 2} (char-frequencies "zz")))
-    (is (= {\r 5} (char-frequencies "rrrrr")))))
+    (is (= {\z 2} (keyed-char-counts "zz")))
+    (is (= {\r 5} (keyed-char-counts "rrrrr")))))
 
-(deftest char-frequencies-test-multiple-chars
+(deftest keyed-char-counts-test-multiple-chars
   (testing "one of each char"
-    (is (= {\v 1 \l 1 \k 1} (char-frequencies "vlk"))))
+    (is (= {\v 1 \l 1 \k 1} (keyed-char-counts "vlk"))))
   (testing "more than one of some chars"
-    (is (= {\a 1 \l 2 \o 1} (char-frequencies "allo")))))
+    (is (= {\a 1 \l 2 \o 1} (keyed-char-counts "allo")))))
 
-(deftest contains-char-with-sufficient-amount-test
+(deftest keyed-chars-meet-requirements-test
   (testing "doesnt contain all"
-    (is (false? (contains-char-with-sufficient-amount? {\a 2 \z 2} [\x 1 \z 1]))))
+    (is (false? (keyed-chars-meet-requirements? {\a 2 \z 2} [\x 1 \z 1]))))
   (testing "not containing"
-    (is (false? (contains-char-with-sufficient-amount? {\a 2} [\z 1]))))
+    (is (false? (keyed-chars-meet-requirements? {\a 2} [\z 1]))))
   (testing "exact"
-    (is (true? (contains-char-with-sufficient-amount? {\a 1} [\a 1]))))
+    (is (true? (keyed-chars-meet-requirements? {\a 1} [\a 1]))))
   (testing "sufficient"
-    (is (true? (contains-char-with-sufficient-amount? {\d 5} [\d 5]))))
+    (is (true? (keyed-chars-meet-requirements? {\d 5} [\d 5]))))
   (testing "insufficient"
-    (is (false? (contains-char-with-sufficient-amount? {\z 1} [\z 3])))))
+    (is (false? (keyed-chars-meet-requirements? {\z 1} [\z 3])))))

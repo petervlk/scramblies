@@ -4,14 +4,20 @@
             [reitit.ring.coercion :as coercion]
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.ring.middleware.exception :as exception]
-            [muuntaja.core :as m]))
-
-(def handler-ok (constantly {:status 200 :body "ok, scramblies!"}))
+            [muuntaja.core :as m]
+            [vlk.scramblies :as scramblies]))
 
 (def routes
-  [["/" {:post {:parameters {:body {:scramble string?
-                                    :target   string?}}
-                :handler    handler-ok}}]])
+  [["/" {:post
+         {:parameters {:body {:scramble string? :target string?}}
+          :responses  {200 {:body {:scrambled boolean?}}}
+          :handler    (fn [{:keys [parameters]}]
+                          (let [scramble-result
+                                (scramblies/scramble?
+                                  (-> parameters :body :scramble)
+                                  (-> parameters :body :target))]
+                            {:status 200
+                             :body   {:scrambled scramble-result}}))}}]])
 
 (defn create-app []
   (ring/ring-handler

@@ -6,7 +6,7 @@
 
 (def system-config
   {:scramblies/jetty   {:handler (ig/ref :scramblies/handler)
-                        :port    3000}
+                        :port    4000}
    :scramblies/handler nil})
 
 (defmethod ig/init-key :scramblies/jetty [_ {:keys [handler port]}]

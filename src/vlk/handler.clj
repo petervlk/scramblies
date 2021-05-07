@@ -1,5 +1,6 @@
 (ns vlk.handler
-  (:require [reitit.coercion.spec]
+  (:require [ring.middleware.cors :refer [wrap-cors]]
+            [reitit.coercion.spec]
             [reitit.ring :as ring]
             [reitit.ring.coercion :as coercion]
             [reitit.ring.middleware.muuntaja :as muuntaja]
@@ -24,7 +25,10 @@
     (ring/router routes
                  {:data {:coercion   reitit.coercion.spec/coercion
                          :muuntaja   m/instance
-                         :middleware [muuntaja/format-negotiate-middleware
+                         :middleware [[wrap-cors
+                                       :access-control-allow-origin [#"http://localhost:3000"]
+                                       :access-control-allow-methods [:post]]
+                                      muuntaja/format-negotiate-middleware
                                       muuntaja/format-response-middleware
                                       exception/exception-middleware
                                       muuntaja/format-request-middleware

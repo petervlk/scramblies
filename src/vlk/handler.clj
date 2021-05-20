@@ -5,11 +5,17 @@
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.ring.middleware.exception :as exception]
             [muuntaja.core :as m]
-            [vlk.scramblies :as scramblies]))
+            [clojure.spec.alpha :as s]
+            [vlk.scramblies :as scramblies]
+            [vlk.validator :as v]))
+
+(s/def ::scramble v/only-lower-case-letters?)
+(s/def ::target v/only-lower-case-letters?)
+(s/def ::scramblies-request (s/keys :req-un [::scramble ::target]))
 
 (def routes
   [["/" {:post
-         {:parameters {:body {:scramble string? :target string?}}
+         {:parameters {:body ::scramblies-request}
           :responses  {200 {:body {:scrambled boolean?}}}
           :handler    (fn [{:keys [parameters]}]
                           (let [scramble-result
